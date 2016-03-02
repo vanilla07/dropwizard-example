@@ -1,0 +1,25 @@
+# Database settings.
+database:
+  # the name of your JDBC driver
+  driverClass: org.postgresql.Driver
+
+  # the username
+  user: admin
+
+  # the password
+  password: admin
+
+  # the JDBC URL
+  url: jdbc:postgresql://localhost:5432/project_dropwizard
+
+  # any properties specific to your JDBC driver:
+  properties:
+    charSet: UTF-8
+
+  # the maximum amount of time to wait on an empty pool before throwing an exception
+  maxWaitForConnection: 1s
+# User login.
+login: admin
+# User  password.
+password: passerelle
+
