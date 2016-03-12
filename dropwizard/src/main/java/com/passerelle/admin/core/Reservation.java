@@ -15,14 +15,36 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "reservations")
 @NamedQueries({
+	// All bookings
     @NamedQuery(name = "com.passerelle.admin.core.Reservation.findAll",
             query = "select e from Reservation e"),
+    // All bookings starting after the date or including the date
+    @NamedQuery(name = "com.passerelle.admin.core.Reservation.findAllByDate",
+            query = "select e from Reservation e "
+            		+ "where e.dateIn >= :date "
+            		+ "or (dateIn < :date and dateOut > :date) "
+            		+ "order by dateIn asc"
+    		),
+    // All bookings containing this client name
     @NamedQuery(name = "com.passerelle.admin.core.Reservation.findByName",
             query = "select e from Reservation e "
             + "where e.name like :name "),
+    // All bookings for this room
     @NamedQuery(name = "com.passerelle.admin.core.Reservation.findByRoom",
             query = "select e from Reservation e "
-            + "where e.room = :room ")
+            + "where e.room = :room "),
+	// All bookings of this room starting after the date or including the date sorted and limited to a dateEnd
+	@NamedQuery(name = "com.passerelle.admin.core.Reservation.findByRoomByDate",
+	        query = "select e from Reservation e "
+	        		+ "where e.room = :roomid "
+	        		+ "and "
+	        		+ "(e.dateIn between :date and :dateend "
+	        		+ "or e.dateIn < :date and e.dateOut > :date) "
+	        		+ "order by e.dateIn asc"
+			),
+    // Delete a booking by ID
+    @NamedQuery(name = "com.passerelle.admin.core.Reservation.delete",
+    			query = "delete Reservation e where e.id = :id ")
 })
 public class Reservation {
 

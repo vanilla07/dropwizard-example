@@ -8,8 +8,10 @@ import io.dropwizard.jersey.params.LongParam;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -70,13 +72,41 @@ public class VacationResource {
 		return vacationDAO.findById(id.get());
 	}
 	
+	@DELETE
+	@Path("/{id}")
+	public void delete(@PathParam("id") LongParam id) {
+		Vacation vac = vacationDAO.findById(id.get()).get();
+		vacationDAO.deleteVacation(vac);
+	}
+	
 	@POST
 	@UnitOfWork
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void closeDate( @Valid Vacation request) throws Exception {
-		//System.out.println(request.toString());
-		vacationDAO.addVacation(request);
+	public void addVacation( @Valid Vacation request) throws Exception {
+		
+		// TODO : tester la validité des dates
+		// TODO : tester la présence des champs obligatoires		
+		
+		addOrUpdate(request);
+	}
+	
+	@PUT
+	@UnitOfWork
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void updateVacation( @Valid Vacation request) throws Exception {
+		
+		// TODO : tester la validité des dates
+		// TODO : tester la présence des champs obligatoires		
+		
+		addOrUpdate(request);
+	}
+
+	private void addOrUpdate(Vacation request) {
+		vacationDAO.saveVacation(request);
 		List<Date> dates = PasserelleUtils.getVacationDates(request);
+		
+		// Update table of vacation dates
+		vacationDateDAO.deleteByVacation(request.getId());
 		for (Date date : dates){
 			vacationDateDAO.addDate(new VacationDate(request.getId(), request.getRoom(), date));
 		}

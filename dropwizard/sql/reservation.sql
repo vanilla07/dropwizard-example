@@ -13,4 +13,4 @@ CREATE TABLE reservations
   telephone character varying(50),
   channel integer,
   CONSTRAINT id_reservation PRIMARY KEY (id)
-)
+);

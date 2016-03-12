@@ -15,14 +15,36 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "vacation")
 @NamedQueries({
+	// All vacations
     @NamedQuery(name = "com.passerelle.admin.core.Vacation.findAll",
             query = "select e from Vacation e"),
+    // All vacations starting after the date or including the date
+    @NamedQuery(name = "com.passerelle.admin.core.Vacation.findAllByDate",
+            query = "select e from Vacation e "
+            		+ "where e.dateStart >= :date "
+            		+ "or (dateStart < :date and dateEnd > :date) "
+            		+ "order by dateStart asc"
+    		),
+    // All vacations containing this words in the name
     @NamedQuery(name = "com.passerelle.admin.core.Vacation.findByName",
             query = "select e from Vacation e "
             + "where e.name like :name "),
+    // All vacations for this room
     @NamedQuery(name = "com.passerelle.admin.core.Vacation.findByRoom",
             query = "select e from Vacation e "
-            + "where e.room = :room ")
+            + "where e.room = :room "),
+    // All vacations of this room starting after the date or including the date sorted and limited to a dateEnd
+ 	@NamedQuery(name = "com.passerelle.admin.core.Vacation.findByRoomByDate",
+ 	        query = "select e from Vacation e "
+ 	        		+ "where e.room = :roomid "
+	        		+ "and "
+	        		+ "(e.dateStart between :date and :dateend "
+	        		+ "or e.dateStart < :date and e.dateEnd > :date) "
+	        		+ "order by e.dateStart asc"
+ 			),
+     // Delete a vacation by ID
+     @NamedQuery(name = "com.passerelle.admin.core.Vacation.delete",
+     			query = "delete Vacation e where e.id = :id ")
 })
 public class Vacation {
 

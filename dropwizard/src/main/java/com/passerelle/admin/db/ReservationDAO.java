@@ -1,5 +1,7 @@
 package com.passerelle.admin.db;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -23,6 +25,12 @@ public class ReservationDAO extends AbstractDAO<Reservation> {
     public List<Reservation> findAll() {
         return list(namedQuery("com.passerelle.admin.core.Reservation.findAll"));
     }
+
+    public List<Reservation> findAllByDate(Date date) {
+    	return list(namedQuery("com.passerelle.admin.core.Reservation.findAllByDate")
+    			.setParameter("date", date)    	
+    	);
+    }
     
     public List<Reservation> findByRoom(int roomId) {
         return list(namedQuery("com.passerelle.admin.core.Reservation.findByRoom")
@@ -43,7 +51,26 @@ public class ReservationDAO extends AbstractDAO<Reservation> {
         return Optional.fromNullable(get(id));
     }
     
-    public  void addReservation(Reservation resa) {
+    // add and update
+    public void saveReservation(Reservation resa) {
     	persist(resa);
+    }
+    
+    public void deleteReservation(long id) {
+    	list(namedQuery("com.passerelle.admin.core.Reservation.delete")
+    			.setParameter("id", id));
+    }
+    
+    public List<Reservation> findByRoomByDate(int roomId, Date date) {
+    	Calendar c = Calendar.getInstance(); 
+    	c.setTime(date); 
+    	c.add(Calendar.DATE, 30);
+    	Date dateEnd = new Date(c.getTimeInMillis());
+        return list(
+                namedQuery("com.passerelle.admin.core.Reservation.findByRoomByDate")
+                .setParameter("roomid", roomId)
+                .setParameter("date", date)
+                .setParameter("dateend", dateEnd)
+        );
     }
 }

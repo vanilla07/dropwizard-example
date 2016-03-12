@@ -7,4 +7,4 @@ CREATE TABLE vacation
   date_start date,
   date_end date,
   CONSTRAINT id_vacation PRIMARY KEY (id)
-)
+);

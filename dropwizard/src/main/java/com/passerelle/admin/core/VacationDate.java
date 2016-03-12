@@ -19,7 +19,10 @@ import javax.persistence.Table;
             query = "select e from VacationDate e"),
     @NamedQuery(name = "com.passerelle.admin.core.VacationDate.findByRoom",
             query = "select e from VacationDate e "
-            + "where e.room = :room ")
+            + "where e.room = :room "),
+    @NamedQuery(name = "com.passerelle.admin.core.VacationDate.deleteByVacation",
+    query = "delete VacationDate e "
+    		+ "where e.idVacation = :vacation ")
 })
 public class VacationDate {
 

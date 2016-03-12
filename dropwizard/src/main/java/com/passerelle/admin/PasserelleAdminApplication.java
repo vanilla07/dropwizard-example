@@ -22,6 +22,7 @@ import com.passerelle.admin.db.VacationDateDAO;
 import com.passerelle.admin.resources.CalendarResource;
 import com.passerelle.admin.resources.HelloResource;
 import com.passerelle.admin.resources.ReservationsResource;
+import com.passerelle.admin.resources.RoomResource;
 import com.passerelle.admin.resources.VacationResource;
 
 import io.dropwizard.Application;
@@ -85,11 +86,12 @@ public class PasserelleAdminApplication extends Application<PasserelleAdminConfi
     	environment.jersey().register(new AuthDynamicFeature(userBasicCredentialAuthFilter));
     	environment.jersey().register(new AuthValueFactoryProvider.Binder(User.class));
     	
-    	//Register a simple resource.
+    	//Register resources.
         environment.jersey().register(new HelloResource());
         environment.jersey().register(new CalendarResource(occupiedDateDAO, vacationDateDAO, reservationDAO, vacationDAO));
         environment.jersey().register(new ReservationsResource(reservationDAO, occupiedDateDAO));
         environment.jersey().register(new VacationResource(vacationDAO, vacationDateDAO));
+        environment.jersey().register(new RoomResource(reservationDAO, vacationDAO));
         
         // Enable CORS headers
         final FilterRegistration.Dynamic cors =
