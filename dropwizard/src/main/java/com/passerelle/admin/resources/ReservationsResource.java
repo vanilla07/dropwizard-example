@@ -74,6 +74,7 @@ public class ReservationsResource {
 	
 	@DELETE
 	@Path("/{id}")
+	@UnitOfWork
 	public void delete(@PathParam("id") LongParam id) {
 		reservationDAO.deleteReservation(id.get());
 	}
@@ -91,6 +92,7 @@ public class ReservationsResource {
 	}
 	
 	@PUT
+	@Path("/{id}")
 	@UnitOfWork
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void updateReservation( @Valid Reservation request) {

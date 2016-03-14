@@ -1,9 +1,9 @@
 package com.passerelle.admin.core;
 
 public enum RoomEnum {
-	 ROOM1 (0, "Premier Cru", 56.0),
-	 ROOM2 (1, "Grand Cru", 56.0),
-	 ROOM3 (2, "Corton Charlemagne", 56.0);
+	 ROOM1 (0, "Premier Cru", 96.0),
+	 ROOM2 (1, "Grand Cru", 96.0),
+	 ROOM3 (2, "Corton Charlemagne", 110.0);
 	 
 	 private final int id; 
 	 private final String name;

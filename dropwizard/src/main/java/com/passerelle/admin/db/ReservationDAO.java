@@ -57,8 +57,8 @@ public class ReservationDAO extends AbstractDAO<Reservation> {
     }
     
     public void deleteReservation(long id) {
-    	list(namedQuery("com.passerelle.admin.core.Reservation.delete")
-    			.setParameter("id", id));
+    	namedQuery("com.passerelle.admin.core.Reservation.delete")
+    			.setParameter("id", id);
     }
     
     public List<Reservation> findByRoomByDate(int roomId, Date date) {

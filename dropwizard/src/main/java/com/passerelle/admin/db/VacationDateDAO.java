@@ -31,9 +31,8 @@ public class VacationDateDAO extends AbstractDAO<VacationDate> {
     }
     
     public void deleteByVacation(long vacId) {
-        list(namedQuery("com.passerelle.admin.core.VacationDate.deleteByVacation")
-                .setParameter("vacation", vacId)
-        );
+        namedQuery("com.passerelle.admin.core.VacationDate.deleteByVacation")
+                .setParameter("vacation", vacId);
     }
 
     public Optional<VacationDate> findById(long id) {

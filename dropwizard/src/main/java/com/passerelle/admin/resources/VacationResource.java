@@ -74,6 +74,7 @@ public class VacationResource {
 	
 	@DELETE
 	@Path("/{id}")
+	@UnitOfWork
 	public void delete(@PathParam("id") LongParam id) {
 		Vacation vac = vacationDAO.findById(id.get()).get();
 		vacationDAO.deleteVacation(vac);
@@ -91,6 +92,7 @@ public class VacationResource {
 	}
 	
 	@PUT
+	@Path("/{id}")
 	@UnitOfWork
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void updateVacation( @Valid Vacation request) throws Exception {
