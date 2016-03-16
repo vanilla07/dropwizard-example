@@ -107,7 +107,12 @@ public class VacationResource {
 		List<Date> dates = PasserelleUtils.getVacationDates(request);
 		
 		// Update table of vacation dates
-		vacationDateDAO.deleteByVacation(request.getId());
+		// Remove old vacation dates
+		List<VacationDate> datesToRemove = vacationDateDAO.findByVacation(request.getId());
+		for (VacationDate d : datesToRemove){
+			vacationDateDAO.deleteDate(d);
+		}
+		// Add new vacation dates
 		for (Date date : dates){
 			vacationDateDAO.addDate(new VacationDate(request.getId(), request.getRoom(), date));
 		}

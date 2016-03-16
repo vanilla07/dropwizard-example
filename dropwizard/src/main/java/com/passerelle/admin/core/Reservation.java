@@ -41,10 +41,7 @@ import javax.persistence.Table;
 	        		+ "(e.dateIn between :date and :dateend "
 	        		+ "or e.dateIn < :date and e.dateOut > :date) "
 	        		+ "order by e.dateIn asc"
-			),
-    // Delete a booking by ID
-    @NamedQuery(name = "com.passerelle.admin.core.Reservation.delete",
-    			query = "delete Reservation e where e.id = :id ")
+			)
 })
 public class Reservation {
 

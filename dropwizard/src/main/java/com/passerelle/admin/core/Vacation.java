@@ -41,10 +41,7 @@ import javax.persistence.Table;
 	        		+ "(e.dateStart between :date and :dateend "
 	        		+ "or e.dateStart < :date and e.dateEnd > :date) "
 	        		+ "order by e.dateStart asc"
- 			),
-     // Delete a vacation by ID
-     @NamedQuery(name = "com.passerelle.admin.core.Vacation.delete",
-     			query = "delete Vacation e where e.id = :id ")
+ 			)
 })
 public class Vacation {
 
