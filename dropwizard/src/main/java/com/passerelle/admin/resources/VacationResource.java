@@ -73,11 +73,10 @@ public class VacationResource {
 	}
 	
 	@DELETE
-	@Path("/{id}")
 	@UnitOfWork
-	public void delete(@PathParam("id") LongParam id) {
-		Vacation vac = vacationDAO.findById(id.get()).get();
-		vacationDAO.deleteVacation(vac);
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void delete(@Valid Vacation request) {
+		vacationDAO.deleteVacation(request);
 	}
 	
 	@POST

@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
+//import io.dropwizard.servlets.assets.ResourceNotFoundException;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -17,6 +18,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.google.common.base.Optional;
 import com.passerelle.admin.api.PasserelleUtils;
@@ -75,8 +78,14 @@ public class ReservationsResource {
 	@DELETE
 	@Path("/{id}")
 	@UnitOfWork
-	public void delete(@PathParam("id") LongParam id) {
-		reservationDAO.deleteReservation(id.get());
+	public Response delete( @PathParam("id") LongParam id) {
+		Optional<Reservation> res = reservationDAO.findById(id.get());
+        if (!res.isPresent()) {
+            //throw new ResourceNotFoundException(new Throwable("Impossible to remove the reservation "+ id.get() + ": Resource not found."));
+            Response.status(Status.NOT_FOUND);
+        }
+		reservationDAO.deleteReservation(res.get());
+		return Response.ok().build();
 	}
 	
 	@POST
