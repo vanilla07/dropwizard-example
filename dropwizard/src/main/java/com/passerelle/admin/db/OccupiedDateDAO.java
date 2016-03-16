@@ -28,10 +28,15 @@ public class OccupiedDateDAO extends AbstractDAO<OccupiedDate> {
                 .setParameter("room", roomId)
         );
     }
+    
+    public List<OccupiedDate> findByReservation(long resId) {
+        return list(namedQuery("com.passerelle.admin.core.OccupiedDate.findByReservation")
+                .setParameter("reservation", resId)
+        );
+    }
 
-    public void deleteByReservation(long resId) {
-        namedQuery("com.passerelle.admin.core.OccupiedDate.deleteByReservation")
-                .setParameter("reservation", resId);
+    public void deleteDate(OccupiedDate date) {
+    	currentSession().delete(date);
     }
     
     public Optional<OccupiedDate> findById(long id) {

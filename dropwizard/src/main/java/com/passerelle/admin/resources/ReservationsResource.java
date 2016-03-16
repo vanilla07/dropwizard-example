@@ -117,8 +117,12 @@ public class ReservationsResource {
 		reservationDAO.saveReservation(request);
 		List<Date> dates = PasserelleUtils.getReservationDates(request);
 		
-		// Update table of occupied dates
-		occupiedDateDAO.deleteByReservation(request.getId());
+		// Remove old occupied dates
+		List<OccupiedDate> datesToRemove = occupiedDateDAO.findByReservation(request.getId());
+		for (OccupiedDate d : datesToRemove){
+			occupiedDateDAO.deleteDate(d);
+		}
+		// Add new occupied dates
 		for (Date date : dates){
 			occupiedDateDAO.addDate(new OccupiedDate(request.getId(), request.getRoom(), date));
 		}
