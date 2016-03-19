@@ -17,6 +17,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.google.common.base.Optional;
 import com.passerelle.admin.api.PasserelleUtils;
@@ -73,10 +75,17 @@ public class VacationResource {
 	}
 	
 	@DELETE
+	@Path("/{id}")
 	@UnitOfWork
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void delete(@Valid Vacation request) {
-		vacationDAO.deleteVacation(request);
+	public Response delete(@PathParam("id") LongParam id) {
+		Optional<Vacation> vac = vacationDAO.findById(id.get());
+        if (!vac.isPresent()) {
+            //throw new ResourceNotFoundException(new Throwable("Impossible to remove the reservation "+ id.get() + ": Resource not found."));
+            Response.status(Status.NOT_FOUND);
+        }
+		vacationDAO.deleteVacation(vac.get());
+		return Response.ok().build();
 	}
 	
 	@POST
